@@ -4,11 +4,10 @@
 	  <Title>ExtendedCompiler</Title>
 	  <Description>A post build weaver that enhance the C# experience</Description>
 	  <Authors>QuentinE</Authors>
-	  <Version>0.0.8</Version>
+	  <Version>0.0.1</Version>
 	  <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
 	  <LangVersion>preview</LangVersion>
-    <OutputType>Exe</OutputType>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <OutputType>Exe</OutputType>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -17,6 +16,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DocumentationFile>C:\Users\Quentin\source\repos\ExtendedCompiler\ExtendedCompiler\ExtendedCompiler.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
