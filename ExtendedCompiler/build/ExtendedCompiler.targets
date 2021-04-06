@@ -1,0 +1,9 @@
+<Project>
+	<Target Name="Post Build Weaving" AfterTargets="PostBuildEvent">
+    <Exec Command="$(OutDir)ExtendedCompiler.exe &quot;$(OutDir)$(TargetFileName)&quot;" />
+    <Exec Command="del &quot;$(OutDir)$(TargetFileName)&quot;" />
+    <Exec Command="del &quot;$(OutDir)ExtendedCompiler.exe&quot;" />
+    <Exec Command="ren &quot;$(OutDir)$(TargetFileName)_patched&quot; $(TargetFileName)" />
+    <Message Importance="high" Text="Weaved assembly" />
+	</Target>
+</Project>

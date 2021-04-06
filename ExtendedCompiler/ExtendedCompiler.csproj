@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <Title>ExtendedCompiler</Title>
+	  <Description>A post build weaver that enhance the C# experience</Description>
+	  <Authors>QuentinE</Authors>
+	  <Version>0.0.8</Version>
+	  <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
+	  <LangVersion>preview</LangVersion>
+    <OutputType>Exe</OutputType>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="build\**" Pack="True" PackagePath="build\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.11.3" />
+  </ItemGroup>
+  
+</Project>
