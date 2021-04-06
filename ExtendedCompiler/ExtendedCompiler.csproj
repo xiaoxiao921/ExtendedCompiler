@@ -5,7 +5,7 @@
 	  <Description>A post build weaver that enhance the C# experience</Description>
 	  <Authors>QuentinE</Authors>
 	  <Version>0.0.1</Version>
-	  <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
+	  <TargetFrameworks>net40</TargetFrameworks>
 	  <LangVersion>preview</LangVersion>
 	  <OutputType>Exe</OutputType>
   </PropertyGroup>
