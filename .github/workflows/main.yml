@@ -25,13 +25,13 @@ jobs:
           
       - name: Pack
         run:
-          msbuild -p:Configuration=Release ExtendedCompiler/ExtendedCompiler.csproj
+          msbuild -p:Configuration=Release ExtendedCompiler.sln
           -p:Version=${{steps.vars.outputs.tag}}
           /p:OutputPath=.
           
       - name: Build
         run:
-          msbuild -t:pack /p:Configuration=Release ExtendedCompiler/ExtendedCompiler.csproj
+          msbuild -t:pack /p:Configuration=Release ExtendedCompiler.sln
           -p:Version=${{steps.vars.outputs.tag}}
           /p:OutputPath=./content/
           
