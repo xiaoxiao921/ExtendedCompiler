@@ -2,9 +2,9 @@
 
 namespace ExtendedCompiler
 {
-    internal static class Program
+    class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             MethodOf.CecilFixup(args[0]);
         }
