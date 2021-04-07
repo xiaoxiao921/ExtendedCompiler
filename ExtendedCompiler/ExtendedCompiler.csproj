@@ -29,11 +29,5 @@
   <ItemGroup>
     <Content Include="content\**" target="Content"></Content>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir -p $(ProjectDir)content\ExtendedCompilerBinary\" Condition=" '$(OS)' != 'Windows_NT' " />
-    <Exec Command="cp -r $(TargetDir) $(ProjectDir)content\ExtendedCompilerBinary\" Condition=" '$(OS)' != 'Windows_NT' " />
-    <Exec Command="xcopy /Y $(TargetDir) $(ProjectDir)content\ExtendedCompilerBinary\" Condition=" '$(OS)' == 'Windows_NT' " />
-  </Target>
   
 </Project>
