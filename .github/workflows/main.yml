@@ -17,17 +17,17 @@ jobs:
         
       - name: Update targets search path version string
         run: sed -i 's/0.0.1/${{steps.vars.outputs.tag}}/g' ExtendedCompiler/build/ExtendedCompiler.targets
-        
-      - name: Build
-        run:
-          dotnet build -c Release ExtendedCompiler/ExtendedCompiler.csproj
-          -p:Version=${{steps.vars.outputs.tag}}
           
       - name: Pack
         run:
           dotnet pack -c Release ExtendedCompiler/ExtendedCompiler.csproj
           -p:Version=${{steps.vars.outputs.tag}}
           -o .
+          
+      - name: Put the content folder in nupkg
+        run: |
+          cd ExtendedCompiler
+          zip -r ../*.nupkg content/
         
       - name: Publish the package to Nuget
         run: dotnet nuget push "*.nupkg" -k ${{secrets.NUGET_KEY}} -s https://api.nuget.org/v3/index.json
