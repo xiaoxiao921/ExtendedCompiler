@@ -25,9 +25,5 @@
   <ItemGroup>
     <None Include="build\**" Pack="True" PackagePath="build\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="content\**" target="Content"></Content>
-  </ItemGroup>
   
 </Project>
