@@ -23,17 +23,15 @@ jobs:
       - name: Update targets search path version string
         run: sed -i 's/0.0.1/${{steps.vars.outputs.tag}}/g' ExtendedCompiler/build/ExtendedCompiler.targets
           
-      - name: Pack
-        run:
-          msbuild -p:Configuration=Release ExtendedCompiler.sln
-          -p:Version=${{steps.vars.outputs.tag}}
-          /p:OutputPath=.
-          
       - name: Build
         run:
+          msbuild -p:Configuration=Release ExtendedCompiler.sln
+          -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath=.
+          
+      - name: Pack
+        run:
           msbuild -t:pack /p:Configuration=Release ExtendedCompiler.sln
-          -p:Version=${{steps.vars.outputs.tag}}
-          /p:OutputPath=./content/
+          -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath=./content/
           
       - name: Put the content folder in nupkg
         run: zip -r *.nupkg ./content/
