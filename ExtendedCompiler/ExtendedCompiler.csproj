@@ -5,9 +5,11 @@
 	  <Description>A post build weaver that enhance the C# experience</Description>
 	  <Authors>QuentinE</Authors>
 	  <Version>0.0.1</Version>
-	  <TargetFrameworks>net40</TargetFrameworks>
+	  <TargetFrameworks>net35;net40;netstandard2.0</TargetFrameworks>
 	  <LangVersion>preview</LangVersion>
 	  <OutputType>Exe</OutputType>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -18,16 +20,20 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DocumentationFile>C:\Users\Quentin\source\repos\ExtendedCompiler\ExtendedCompiler\ExtendedCompiler.xml</DocumentationFile>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.10.4" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="build\**" Pack="True" PackagePath="build\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="0.11.3" />
+    <Content Include="content\**" target="Content"></Content>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="set outputBinaryPath=&quot;$(TargetDir)&quot;&#xD;&#xA;if not x%25outputBinaryPath:net35=%25==x%25outputBinaryPath%25 xcopy /Y %25outputBinaryPath%25 &quot;$(ProjectDir)content\ExtendedCompilerBinary\&quot;" />
+  </Target>
   
 </Project>

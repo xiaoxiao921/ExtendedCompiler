@@ -1,9 +1,8 @@
 <Project>
-	<Target Name="Post Build Weaving" AfterTargets="PostBuildEvent">
-    <Exec Command="$(OutDir)ExtendedCompiler.exe &quot;$(OutDir)$(TargetFileName)&quot;" />
+  <Target Name="Post Build Weaving" AfterTargets="PostBuildEvent">
+    <Exec Command="FOR /F &quot;tokens=* USEBACKQ&quot; %25%25F IN (`WHERE /R &quot;$(NuGetPackageRoot)extendedcompiler\0.0.1\content&quot; ExtendedCompiler.exe`) DO (set var=%25%25F)&#xD;&#xA;%var% &quot;$(OutDir)$(TargetFileName)&quot;" />
     <Exec Command="del &quot;$(OutDir)$(TargetFileName)&quot;" />
-    <Exec Command="del &quot;$(OutDir)ExtendedCompiler.exe&quot;" />
     <Exec Command="ren &quot;$(OutDir)$(TargetFileName)_patched&quot; $(TargetFileName)" />
     <Message Importance="high" Text="Weaved assembly" />
-	</Target>
+  </Target>
 </Project>
