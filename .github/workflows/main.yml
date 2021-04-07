@@ -12,12 +12,22 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-      - uses: microsoft/setup-msbuild@v1.0.2
-      - uses: nuget/setup-nuget@v1
-      
-      - name : Nuget restore
-        run: nuget restore ExtendedCompiler.sln
+      - name: Setup dotnet SDK 2.1.x
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '2.1.x'
+      - name: Setup dotnet SDK 3.0.x
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.0.x'
+      - name: Setup dotnet SDK 3.1.x
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.102'
+      - name: Setup dotnet SDK 5.0.x
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
         
       - name: Get the Release version tag
         id: vars
@@ -26,17 +36,14 @@ jobs:
       - name: Update targets search path version string
         run: sed -i 's/0.0.1/${{steps.vars.outputs.tag}}/g' ExtendedCompiler/build/ExtendedCompiler.targets
           
+      - name: Restore
+        run: dotnet restore
+          
       - name: Build
         run: |
-          dir=$(pwd)
-          cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
-          ./MSBuild.exe -p:Configuration=Release "$dir"/ExtendedCompiler.sln -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath="$dir"
-          
-      - name: Pack
-        run: |
-          dir=$(pwd)
-          cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
-          ./MSBuild.exe -t:pack -p:Configuration=Release "$dir"/ExtendedCompiler.sln -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath="$dir"
+          dotnet pack -c Release ExtendedCompiler/ExtendedCompiler.csproj
+          -p:Version=${{steps.vars.outputs.tag}}
+          -o .
           
       - name: Put the content folder in nupkg
         run: zip -r *.nupkg ./content/
