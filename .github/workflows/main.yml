@@ -40,7 +40,13 @@ jobs:
         run: dotnet restore
           
       - name: Build
-        run: |
+        run:
+          dotnet build -c Release ExtendedCompiler/ExtendedCompiler.csproj
+          -p:Version=${{steps.vars.outputs.tag}}
+          -o ./content/
+          
+      - name: Pack
+        run:
           dotnet pack -c Release ExtendedCompiler/ExtendedCompiler.csproj
           -p:Version=${{steps.vars.outputs.tag}}
           -o .
