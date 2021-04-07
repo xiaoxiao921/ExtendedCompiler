@@ -7,10 +7,17 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
-      - uses: warrenbuckley/Setup-MSBuild@v1
+      - uses: microsoft/setup-msbuild@v1.0.2
+      - uses: nuget/setup-nuget@v1
+      
+      - name : Nuget restore
+        run: nuget restore ExtendedCompiler.sln
         
       - name: Get the Release version tag
         id: vars
@@ -19,17 +26,17 @@ jobs:
       - name: Update targets search path version string
         run: sed -i 's/0.0.1/${{steps.vars.outputs.tag}}/g' ExtendedCompiler/build/ExtendedCompiler.targets
           
-      - name: Pack
-        run:
-          msbuild -p:Configuration=Release ExtendedCompiler/ExtendedCompiler.csproj
-          -p:Version=${{steps.vars.outputs.tag}}
-          -o .
-          
       - name: Build
-        run:
-          msbuild -t:pack /p:Configuration=Release ExtendedCompiler/ExtendedCompiler.csproj
-          -p:Version=${{steps.vars.outputs.tag}}
-          -o ./content/
+        run: |
+          dir=$(pwd)
+          cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
+          ./MSBuild.exe -p:Configuration=Release "$dir"/ExtendedCompiler.sln -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath="$dir"
+          
+      - name: Pack
+        run: |
+          dir=$(pwd)
+          cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
+          ./MSBuild.exe -t:pack -p:Configuration=Release "$dir"/ExtendedCompiler.sln -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath="$dir"
           
       - name: Put the content folder in nupkg
         run: zip -r *.nupkg ./content/
