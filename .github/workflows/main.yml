@@ -27,12 +27,12 @@ jobs:
         run: sed -i 's/0.0.1/${{steps.vars.outputs.tag}}/g' ExtendedCompiler/build/ExtendedCompiler.targets
           
       - name: Build
-        run: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" -p:Configuration=Release ExtendedCompiler.sln -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath=.
+        run:
+          "C:\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe -p:Configuration=Release ExtendedCompiler.sln -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath=."
           
       - name: Pack
         run:
-          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" -t:pack /p:Configuration=Release ExtendedCompiler.sln
-          -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath=./content/
+          "C:\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe -t:pack /p:Configuration=Release ExtendedCompiler.sln -p:Version=${{steps.vars.outputs.tag}} -p:OutputPath=./content/"
           
       - name: Put the content folder in nupkg
         run: zip -r *.nupkg ./content/
