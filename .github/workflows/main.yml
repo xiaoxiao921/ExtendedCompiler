@@ -18,18 +18,17 @@ jobs:
       - name: Update targets search path version string
         run: sed -i 's/0.0.1/${{steps.vars.outputs.tag}}/g' ExtendedCompiler/build/ExtendedCompiler.targets
           
-      - name: Build
-        run:
-          dotnet build -c Release ExtendedCompiler/ExtendedCompiler.csproj
-          -p:Version=${{steps.vars.outputs.tag}}
-          -r win10-x64
-          -o ./content/
-          
       - name: Pack
         run:
-          dotnet pack -c Release ExtendedCompiler/ExtendedCompiler.csproj
+          msbuild -p:Configuration=Release ExtendedCompiler/ExtendedCompiler.csproj
           -p:Version=${{steps.vars.outputs.tag}}
           -o .
+          
+      - name: Build
+        run:
+          msbuild -t:pack /p:Configuration=Release ExtendedCompiler/ExtendedCompiler.csproj
+          -p:Version=${{steps.vars.outputs.tag}}
+          -o ./content/
           
       - name: Put the content folder in nupkg
         run: zip -r *.nupkg ./content/
