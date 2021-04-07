@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="set outputBinaryPath=&quot;$(TargetDir)&quot;&#xD;&#xA;if not x%25outputBinaryPath:net35=%25==x%25outputBinaryPath%25 xcopy /Y %25outputBinaryPath%25 &quot;$(ProjectDir)content\ExtendedCompilerBinary\&quot;" />
+    <Exec Command="xcopy /Y $(TargetDir) &quot;$(ProjectDir)content\ExtendedCompilerBinary\&quot;" />
   </Target>
   
 </Project>
