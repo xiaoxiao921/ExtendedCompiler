@@ -51,10 +51,11 @@ jobs:
           -p:Version=${{steps.vars.outputs.tag}}
           -o .
           
+      - name: Install zip
+        uses: montudor/action-zip@v0.1.1
+          
       - name: Put the content folder in nupkg
-      - uses: montudor/action-zip@v0.1.1
-        with:
-          args: zip -r *.nupkg ./content/
+      - run: zip -r *.nupkg ./content/
         
       - name: Publish the package to Nuget
         run: dotnet nuget push "*.nupkg" -k ${{secrets.NUGET_KEY}} -s https://api.nuget.org/v3/index.json
