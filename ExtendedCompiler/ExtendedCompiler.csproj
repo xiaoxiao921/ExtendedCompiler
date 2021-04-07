@@ -31,7 +31,8 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /Y $(TargetDir) $(ProjectDir)content\ExtendedCompilerBinary\" />
+    <Exec Command="cp $(TargetDir) $(ProjectDir)content\ExtendedCompilerBinary\" Condition=" '$(OS)' != 'Windows_NT' " />
+    <Exec Command="xcopy $(TargetDir) $(ProjectDir)content\ExtendedCompilerBinary\" Condition=" '$(OS)' == 'Windows_NT' " />
   </Target>
   
 </Project>
