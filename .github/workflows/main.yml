@@ -18,7 +18,12 @@ jobs:
       - name: Update targets search path version string
         run: sed -i 's/0.0.1/${{steps.vars.outputs.tag}}/g' ExtendedCompiler/build/ExtendedCompiler.targets
         
-      - name: Build and Create the package
+      - name: Build
+        run:
+          dotnet build -c Release ExtendedCompiler/ExtendedCompiler.csproj
+          -p:Version=${{steps.vars.outputs.tag}}
+          
+      - name: Pack
         run:
           dotnet pack -c Release ExtendedCompiler/ExtendedCompiler.csproj
           -p:Version=${{steps.vars.outputs.tag}}
