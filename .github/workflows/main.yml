@@ -22,6 +22,7 @@ jobs:
         run:
           dotnet build -c Release ExtendedCompiler/ExtendedCompiler.csproj
           -p:Version=${{steps.vars.outputs.tag}}
+          -r win10-x64
           -o ./content/
           
       - name: Pack
