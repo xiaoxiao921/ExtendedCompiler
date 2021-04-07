@@ -8,8 +8,6 @@
     <TargetFrameworks>net5.0</TargetFrameworks>
 	  <LangVersion>preview</LangVersion>
 	  <OutputType>Exe</OutputType>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
