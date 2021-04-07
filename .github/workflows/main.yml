@@ -55,7 +55,7 @@ jobs:
         uses: montudor/action-zip@v0.1.1
           
       - name: Put the content folder in nupkg
-      - run: zip -r *.nupkg ./content/
+        run: zip -r *.nupkg ./content/
         
       - name: Publish the package to Nuget
         run: dotnet nuget push "*.nupkg" -k ${{secrets.NUGET_KEY}} -s https://api.nuget.org/v3/index.json
