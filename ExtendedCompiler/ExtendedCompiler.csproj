@@ -8,6 +8,8 @@
     <TargetFrameworks>net5.0</TargetFrameworks>
 	  <LangVersion>preview</LangVersion>
 	  <OutputType>Exe</OutputType>
+	  <PackageProjectUrl>https://github.com/xiaoxiao921/ExtendedCompiler</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/xiaoxiao921/ExtendedCompiler</RepositoryUrl>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
