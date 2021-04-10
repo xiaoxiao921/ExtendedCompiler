@@ -1,6 +1,5 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -12,7 +11,7 @@ namespace ExtendedCompiler.Extensions
     public static class MethodOf
     {
         private static string _methodofReference;
-        internal static string MethodofReference
+        internal static string MethodOfReference
         {
             get
             {
@@ -43,10 +42,8 @@ namespace ExtendedCompiler.Extensions
             }
         }
 
-        internal static void CecilFixup(string assemblyPath)
+        internal static void CecilFixup(AssemblyDefinition assemblyDefinition)
         {
-            var assemblyDefinition = AssemblyDefinition.ReadAssembly(assemblyPath);
-
             foreach (var type in assemblyDefinition.MainModule.Types)
             {
                 foreach (var method in type.Methods)
@@ -63,14 +60,12 @@ namespace ExtendedCompiler.Extensions
                     }
                 }
             }
-
-            assemblyDefinition.Write(assemblyPath + "_patched");
         }
 
         private static bool IsCallToMethodOf(this Instruction instruction) =>
             (instruction.OpCode == OpCodes.Call || instruction.OpCode == OpCodes.Callvirt) &&
             instruction.Operand is MethodReference methodReference &&
-            methodReference.FullName == MethodofReference;
+            methodReference.FullName == MethodOfReference;
 
         /// <summary>
         /// Example for a void method that has no parameter (<see cref="System.Action"/> <see cref="System.Delegate"/>) :

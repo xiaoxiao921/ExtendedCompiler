@@ -1,4 +1,5 @@
 ﻿using ExtendedCompiler.Extensions;
+using Mono.Cecil;
 
 namespace ExtendedCompiler
 {
@@ -6,7 +7,13 @@ namespace ExtendedCompiler
     {
         public static void Main(string[] args)
         {
-            MethodOf.CecilFixup(args[0]);
+            var assemblyPath = args[0];
+            var assemblyDefinition = AssemblyDefinition.ReadAssembly(assemblyPath);
+
+            FieldOf.CecilFixup(assemblyDefinition);
+            MethodOf.CecilFixup(assemblyDefinition);
+
+            assemblyDefinition.Write(assemblyPath + "_patched");
         }
     }
 }
